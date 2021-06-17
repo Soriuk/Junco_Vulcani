@@ -108,7 +108,9 @@ junco_vulcani %>%
   select(stateProvince,
          canton,
          locality,
-         eventDate) %>%
+         eventDate,
+         decimalLongitude,
+         decimalLatitude) %>%
   leaflet() %>%
   addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap") %>%
   addProviderTiles(providers$Stamen.TonerLite, group = "Stamen Toner Lite") %>%
@@ -123,6 +125,8 @@ junco_vulcani %>%
       junco_vulcani$canton,
       junco_vulcani$locality,
       junco_vulcani$eventDate,
+      junco_vulcani$decimalLongitude,
+      junco_vulcani$decimalLatitude,
       sep = '<br/>'
     ),
     group = "Junco del páramo (Junco Vulcani)"

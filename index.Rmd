@@ -64,16 +64,41 @@ junco_vulcani %>%
   group_by(mes = format(as.Date(eventDate, "%Y-%m-%d"), "%m")) %>%
   summarize(suma_registros = n()) %>%
   filter(!is.na(mes))  %>%
-  plot_ly(x = ~ mes,
-          y = ~ suma_registros,
-          fill = "tozeroy",
-          type = "scatter",
-          marker = list(size = 10, color = "orange"),
-          fillcolor = "grey") %>%
-  layout(title = "Estacionalidad",
-         xaxis = list(title = "Mes"),
-         yaxis = list(title = "Cantidad de registros"))
+  plot_ly(
+    x = ~ mes,
+    y = ~ suma_registros,
+    fill = "tozeroy",
+    type = "scatter",
+    marker = list(size = 10,
+                  color = "orange"),
+    fillcolor = "grey"
+  ) %>%
+  layout(
+    title = "Estacionalidad",
+    xaxis = list(title = "Mes"),
+    yaxis = list(title = "Cantidad de registros")
+  )
 ```
 
 # Gráfico de historial
+```{r gráfico-historial, warning=FALSE}
+junco_vulcani %>%
+  st_drop_geometry() %>%
+  group_by(anio = format(as.Date(eventDate, "%Y-%m-%d"), "%Y")) %>%
+  summarize(suma_registros = n()) %>%
+  filter(!is.na(anio))  %>%
+  filter(anio >= 2011) %>%
+  plot_ly(
+    x = ~ anio,
+    y = ~ suma_registros,
+    type = "bar",
+    color = "Orange"
+  ) %>%
+  layout(
+    title = "Historial",
+    xaxis = list(title = "Años"),
+    yaxis = list(title = "Cantidad de registros")
+  )
+```
+
 # Mapa de distribución

@@ -102,3 +102,39 @@ junco_vulcani %>%
 ```
 
 # Mapa de distribución
+```{r mapa, echo= TRUE}
+# Mapa de registros de presencia
+junco_vulcani %>%
+  select(stateProvince,
+         canton,
+         locality,
+         eventDate) %>%
+  leaflet() %>%
+  addProviderTiles(providers$OpenStreetMap.Mapnik, group = "OpenStreetMap") %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Stamen Toner Lite") %>%
+  addProviderTiles(providers$Esri.WorldImagery, group = "Imágenes de ESRI") %>%
+  addCircleMarkers(
+    stroke = F,
+    radius = 4,
+    fillColor = 'orange',
+    fillOpacity = 1,
+    popup = paste(
+      junco_vulcani$stateProvince,
+      junco_vulcani$canton,
+      junco_vulcani$locality,
+      junco_vulcani$eventDate,
+      sep = '<br/>'
+    ),
+    group = "Junco del páramo (Junco Vulcani)"
+  ) %>%
+  addLayersControl(
+    baseGroups = c("OpenStreetMap", "Stamen Toner Lite", "Imágenes de ESRI"),
+    overlayGroups = c("Junco del páramo (Junco Vulcani)")
+  ) %>%
+  addMiniMap(
+    tiles = providers$Stamen.OpenStreetMap.Mapnik,
+    position = "bottomleft",
+    toggleDisplay = TRUE
+  )
+```
+

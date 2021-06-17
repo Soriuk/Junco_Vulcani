@@ -1,0 +1,29 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(sf)
+library(raster)
+library(dplyr)
+library(spData)
+
+library(leaflet)
+library(plotly)
+library(DT)
+
+```
+
+```{r}
+junco_vulcani <-
+  st_read(
+    "https://raw.githubusercontent.com/gf0604-procesamientodatosgeograficos/2021i-datos/main/gbif/junco_vulcani-cr-registros.csv",
+    options= c(
+      "X_POSSIBLE_NAMES=decimalLongitude",
+      "Y_POSSIBLE_NAMES=decimalLatitude"
+    ))
+```
+
+# Indtroducción
+El junco de los páramos (*junco culcani*) habita en zonas abiertas en enleavciones altas, usualmente por encima de los 3000 metros. Suele posarse sobre el suelo o en pequeños arbustos, generalemnete en parejas o en grupos pequeños. Su rango es muy limitado: solo en Costa Rica o en el extremo oeste de Panamá (eBird, [Junco culcani](https://ebird.org/species/voljun1))

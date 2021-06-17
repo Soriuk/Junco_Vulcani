@@ -12,7 +12,7 @@ library(DT)
 
 ```
 
-```{r data, echo=FALSE, message=FALSE, quiet= TRUE}
+```{r data, echo=TRUE, message=FALSE, quiet= TRUE}
 junco_vulcani <-
   st_read(
     "https://raw.githubusercontent.com/gf0604-procesamientodatosgeograficos/2021i-datos/main/gbif/junco_vulcani-cr-registros.csv",
@@ -41,21 +41,39 @@ junco_vulcani <-
 ```
 
 
-# Indtroducción
+# Introducción
 El junco de los páramos (*junco culcani*) habita en zonas abiertas en enleavciones altas, usualmente por encima de los 3000 metros. Suele posarse sobre el suelo o en pequeños arbustos, generalemnete en parejas o en grupos pequeños. Su rango es muy limitado: solo en Costa Rica o en el extremo oeste de Panamá (eBird, [Junco culcani](https://ebird.org/species/voljun1))
 
 # Tabla de registros de presencia  
-```{r}
+```{r tabla-registros}
 # Tabla de registros de presencia
 junco_vulcani %>%
   st_drop_geometry() %>%
   select(stateProvince, canton, locality, eventDate) %>%
   datatable(
     colnames = c("Provincia", "Cantón", "Localidad", "Fecha"),
-    options = list(searchHighligth = TRUE)
+    options = list(searchHighlight = TRUE)
   )
 ```
 
 # Gráfico de estacionalidad
+```{r gráfico-estacionalidad}
+# Gráfico de estacionalidad
+junco_vulcani %>%
+  st_drop_geometry() %>%
+  group_by(mes = format(as.Date(eventDate, "%Y-%m-%d"), "%m")) %>%
+  summarize(suma_registros = n()) %>%
+  filter(!is.na(mes))  %>%
+  plot_ly(x = ~ mes,
+          y = ~ suma_registros,
+          fill = "tozeroy",
+          type = "scatter",
+          marker = list(size = 10, color = "orange"),
+          fillcolor = "grey") %>%
+  layout(title = "Estacionalidad",
+         xaxis = list(title = "Mes"),
+         yaxis = list(title = "Cantidad de registros"))
+```
+
 # Gráfico de historial
 # Mapa de distribución
